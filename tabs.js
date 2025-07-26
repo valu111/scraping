@@ -72,4 +72,3 @@ fetch('empleos.json')
     peores.slice(0, 10).forEach(oferta => peoresLista.appendChild(crearCard(oferta, "peor")));
   })
   .catch(err => console.error("Error al cargar empleos.json:", err));
-

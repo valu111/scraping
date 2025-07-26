@@ -4,30 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ofertas de Empleo</title>
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-  </script>
-
+   <!-- Make sure you put this AFTER Leaflet's CSS -->
+ 
 </head>
 <body class="bg-gray-100">
 
   <h1 class="text-3xl font-bold mb-6 text-center">Ofertas de Empleo</h1>
 
+  
   <nav>
     <ul class="flex justify-center mb-6">
       <li class="select-tab mr-4 cursor-pointer bg-blue-200 p-2 rounded hover:bg-blue-100">Todos</li>
       <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Las 10 mejores ofertas de empleo</li>
       <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Las 10 peores ofertas de empleo</li>
       <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">mapa</li>
+      <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Equipo</li>
     </ul>
   </nav>
+
 
   <section class="select-context h-auto bg-blue-200 p-4 flex justify-center">
     <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
@@ -36,6 +34,7 @@
     </div>
   </section>
 
+
   <section class="select-context h-auto bg-blue-200 p-4 flex justify-center hidden">
     <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
       <h2 class="text-xl font-semibold text-green-600 mb-4 text-center">Mejores Ofertas</h2>
@@ -43,6 +42,7 @@
     </div>
   </section>
 
+  
   <section class="select-context h-auto bg-blue-200 p-4 flex justify-center hidden">
     <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
       <h2 class="text-xl font-semibold text-red-600 mb-4 text-center">Peores Ofertas</h2>
@@ -50,13 +50,28 @@
     </div>
   </section>
 
-  <section class="select-context h-auto bg-blue-200 p-4 flex justify-center">
+  <section class="select-context h-auto bg-blue-200 p-4 flex justify-center hidden">
     <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
-      <h2 class="text-xl font-semibold text-purple-600 mb-4 text-center">Mapa</h2>
-      <div id="map" style="height: 400px;" class="rounded-lg shadow-inner"></div>
+      <div id="map"></div>
     </div>
+     
   </section>
 
+ <section class="select-context h-auto bg-blue-200 p-4 flex justify-center hidden">
+    <div class="w-full md:w-1/2 bg-gray-300 rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold text-red-600 mb-4 text-center">Equipo</h2>
+      <div class="grid md:grid-col-2 mx-auto ">
+      <section class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
+
+      </section>
+      <section class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
+        
+      </section>
+      </div>
+      <div id="peores-lista" class="space-y-3"></div>
+    </div>
+  </section>
+ 
   <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50">
     <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-w-xl">
       <img id="modal-imagen" class="w-20 h-20 object-contain mx-auto mb-4" />
@@ -70,136 +85,10 @@
     </div>
   </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Pega aquí todo el código JavaScript que te pasé
-  const ubicacionesCoords = {
-    "Ciudad de México": { lat: 19.4326, lng: -99.1332 },
-    "Guadalajara": { lat: 20.6597, lng: -103.3496 },
-    "Monterrey": { lat: 25.6866, lng: -100.3161 },
-    "LATAM": { lat: 0, lng: -60 },
-    "Remoto": { lat: 0, lng: -90 }
-  };
-
-  const codigosPostales = {
-    "06000": { lat: 19.4326, lng: -99.1332 },
-    "03020": { lat: 19.3893, lng: -99.1510 },
-    "07970": { lat: 19.4841, lng: -99.1062 },
-    "09810": { lat: 19.3191, lng: -99.0956 },
-    "04360": { lat: 19.3337, lng: -99.1872 }
-  };
-
-  const map = L.map('map').setView([19.4326, -99.1332], 5);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-
-  fetch('empleos.json')
-    .then(response => response.json())
-    .then(trabajos => {
-
-      console.log(trabajos);
-
-      console.log("TOTAL trabajos cargados:", trabajos.length);
-
-      const todasLista = document.getElementById('todas-lista');
-
-      let marcadores = [];
-      let sinCoords = [];
-
-      const baseLat = 19.4326;
-      const baseLng = -99.1332;
-      const gridSpacing = 0.02;
-      let gridCount = 0;
-
-      trabajos.forEach((trabajo, i) => {
-        const item = document.createElement('div');
-        item.classList.add('border', 'p-3', 'rounded', 'cursor-pointer', 'hover:bg-gray-200');
-        item.innerHTML = `
-          <img src="${trabajo.imagen}" alt="${trabajo.titulo}" class="w-16 h-16 object-contain float-left mr-3"/>
-          <div>
-            <strong>${trabajo.titulo}</strong><br/>
-            <em>${trabajo.subtitulo || ''}</em><br/>
-            <small>${trabajo.estadoEmpleo || ''}</small>
-          </div>
-          <div style="clear: both;"></div>
-        `;
-        todasLista.appendChild(item);
-
-        let coords = null;
-        if (trabajo.codigo_postal && codigosPostales[trabajo.codigo_postal]) {
-          coords = codigosPostales[trabajo.codigo_postal];
-        } else {
-          let lugar = trabajo.ubicacion || "";
-          if (lugar.includes(':')) {
-            lugar = lugar.split(':')[1].trim();
-          } else if (lugar.includes('-')) {
-            lugar = lugar.split('-')[0].trim();
-          }
-          coords = ubicacionesCoords[lugar];
-        }
-
-        if (!coords) {
-          sinCoords.push({trabajo, index: i});
-        } else {
-          const marker = L.marker([coords.lat, coords.lng]).addTo(map);
-          marker.bindPopup(`
-            <div>
-              <img src="${trabajo.imagen}" width="80" class="mb-2" /><br/>
-              <strong>${trabajo.titulo}</strong><br/>
-              <em>${trabajo.subtitulo || ''}</em><br/>
-              <small>${trabajo.estadoEmpleo || ''}</small><br/>
-              <p>${trabajo.texto || ''}</p>
-              <a href="${trabajo.enlace || '#'}" target="_blank" class="text-blue-600 underline">Ver oferta</a>
-            </div>
-          `);
-          marcadores.push(marker);
-
-          item.addEventListener('click', () => {
-            marker.openPopup();
-            map.setView([coords.lat, coords.lng], 39);
-          });
-        }
-      });
-
-      sinCoords.forEach(({trabajo, index}) => {
-        let row = Math.floor(gridCount / 5);
-        let col = gridCount % 5;
-        let lat = baseLat + row * gridSpacing;
-        let lng = baseLng + col * gridSpacing;
-
-        const marker = L.marker([lat, lng]).addTo(map);
-        marker.bindPopup(`
-          <div>
-            <img src="${trabajo.imagen}" width="80" class="mb-2" /><br/>
-            <strong>${trabajo.titulo}</strong><br/>
-            <em>${trabajo.subtitulo || ''}</em><br/>
-            <small>${trabajo.estadoEmpleo || ''}</small><br/>
-            <p>${trabajo.texto || ''}</p>
-            <a href="${trabajo.enlace || '#'}" target="_blank" class="text-blue-600 underline">Ver oferta</a>
-          </div>
-        `);
-        marcadores.push(marker);
-
-        const item = todasLista.children[index];
-        item.addEventListener('click', () => {
-          marker.openPopup();
-          map.setView([lat, lng], 39);
-        });
-
-        gridCount++;
-      });
-
-      const group = new L.featureGroup(marcadores);
-      map.fitBounds(group.getBounds().pad(0.5));
-    })
-    .catch(error => console.error('Error cargando empleos.json:', error));
-});
-</script>
-
-
-
   <script src="tabs.js"></script>
+  <script src="mapa.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
 </body>
 </html>
