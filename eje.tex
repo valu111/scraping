@@ -1,0 +1,287 @@
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+
+(async () => {
+  const navegador = await puppeteer.launch({
+    headless: false,
+    slowMo: 80,
+    defaultViewport: null,
+    args: ["--start-maximized"],
+  });
+
+  const pagina = await navegador.newPage();
+  const datosEmpleos = [];
+  const totalPaginas = 4;
+
+  try {
+    for (let numeroPagina = 1; numeroPagina <= totalPaginas; numeroPagina++) {
+      const url = `https://hireline.io/mx/empleos?k=contador&l=&page=${numeroPagina}`;
+      console.log(`🔎 Explorando página ${numeroPagina}`);
+
+      await pagina.goto(url, { waitUntil: "networkidle2", timeout: 0 });
+
+      await pagina.waitForSelector("ul.jobs-search-results__list li", { timeout: 30000 });
+
+      const empleosPagina = await pagina.evaluate(() => {
+        return Array.from(document.querySelectorAll("ul.jobs-search-results__list li")).map((elemento) => {
+          const enlace = elemento.querySelector("a");
+
+          const imagen = enlace?.querySelector("div.enterprise-logo img")?.src || "No encontrada";
+          const titulo = enlace?.querySelector("p.vacancy-title")?.innerText.trim() || "Sin título";
+          const subtitulo = enlace?.querySelector("p.vacancy-subtitle")?.innerText.trim() || "Sin subtítulo";
+          const texto = enlace?.querySelector("p.vacancy-summary")?.innerText.trim() || "Sin texto";
+          
+          // Ubicación y estado de empleo
+          const footerItems = elemento.querySelectorAll("div.footer-item");
+          let ubicacion = "No encontrada";
+          let estadoEmpleo = "No encontrado";
+
+          footerItems.forEach((item) => {
+            const icono = item.querySelector("i");
+            const textoItem = item.querySelector("p")?.innerText.trim();
+            if (icono?.classList.contains("fa-map-marker-alt")) {
+              ubicacion = textoItem || ubicacion;
+            }
+            if (icono?.classList.contains("fa-clock")) {
+              estadoEmpleo = textoItem || estadoEmpleo;
+            }
+          });
+
+          return {
+            imagen,
+            titulo,
+            subtitulo,
+            texto,
+            ubicacion,
+            estadoEmpleo,
+            enlace: enlace?.href || ""
+          };
+        });
+      });
+
+      datosEmpleos.push(...empleosPagina);
+
+      console.log(`✅ Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
+    }
+
+
+
+  } catch (error) {
+    console.error("❌ Error durante el scraping:", error);
+  } finally {
+    await navegador.close();
+  }
+})();
+
+
+
+
+completo de scrapeado:
+
+
+const puppeteer = require("puppeteer");
+
+(async () => {
+  const navegador = await puppeteer.launch({
+    headless: false,
+    slowMo: 80,
+    defaultViewport: null,
+    args: ["--start-maximized"],
+  });
+
+  const pagina = await navegador.newPage();
+  const datosEmpleos = [];
+  const totalPaginas = 4;
+
+  try {
+    for (let numeroPagina = 1; numeroPagina <= totalPaginas; numeroPagina++) {
+      const url = `https://hireline.io/mx/empleos?k=contador&l=&page=${numeroPagina}`;
+      console.log(`🔎 Explorando página ${numeroPagina}`);
+
+      await pagina.goto(url, { waitUntil: "networkidle2", timeout: 0 });
+
+      await pagina.waitForSelector("a.hl-vacancy-card.vacancy-container", { timeout: 30000 });
+
+      const empleosPagina = await pagina.evaluate(() => {
+        return Array.from(document.querySelectorAll("a.hl-vacancy-card.vacancy-container")).map((elemento) => {
+          const imagen = elemento.querySelector("div.enterprise-logo img")?.src || "No encontrada";
+          const titulo = elemento.querySelector("p.vacancy-title")?.innerText.trim() || "Sin título";
+          const subtitulo = elemento.querySelector("p.vacancy-subtitle")?.innerText.trim() || "Sin subtítulo";
+          const texto = elemento.querySelector("p.vacancy-summary")?.innerText.trim() || "Sin texto";
+
+          const footerItems = elemento.querySelectorAll("div.footer-item");
+          let ubicacion = "No encontrada";
+          let estadoEmpleo = "No encontrado";
+
+          footerItems.forEach((item) => {
+            const icono = item.querySelector("i");
+            const textoItem = item.querySelector("p")?.innerText.trim();
+            if (icono?.classList.contains("fa-map-marker-alt")) {
+              ubicacion = textoItem || ubicacion;
+            }
+            if (icono?.classList.contains("fa-clock")) {
+              estadoEmpleo = textoItem || estadoEmpleo;
+            }
+          });
+
+          return {
+            imagen,
+            titulo,
+            subtitulo,
+            texto,
+            ubicacion,
+            estadoEmpleo,
+            enlace: elemento.href || ""
+          };
+        });
+      });
+
+      datosEmpleos.push(...empleosPagina);
+
+      console.log(`✅ Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
+    }
+
+    // Mostrar resultados como objetos JSON formateados
+    datosEmpleos.forEach((empleo) => {
+      console.log(JSON.stringify(empleo, null, 2));
+    });
+
+  } catch (error) {
+    console.error("❌ Error durante el scraping:", error);
+  } finally {
+    await navegador.close();
+  }
+})();
+
+
+
+
+fase2
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Jugadores</title>
+  <!-- Bootstrap CSS desde CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu archivo de estilos personalizados -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <h1>Lista de jugadores</h1>
+  <div id="cards"></div>
+
+  <script>
+    fetch('datos.json')
+    .then(res => res.json())
+    .then(jugadores => {
+      const container = document.getElementById("cards");
+      jugadores.forEach(j => {
+        container.innerHTML += `
+          <div class="card">
+            <h2>#${j.numeroLista} </h2>
+            <h3>${j.nombre}</h3>
+            <p>Edad: ${j.edad}</p>
+            <p>Puesto: ${j.puesto}</p>
+            <p>Fecha: ${j.fecha}</p>
+            <p>Valor: ${j.valorMercado}</p>
+          </div>
+        `;
+      });
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+potaxie: 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Vacantes</title>
+  <link rel="stylesheet" href="stylos.css">
+</head>
+<body>
+
+  <h1>Vacantes disponibles</h1>
+  <div class="contenedor">
+    <input type="text" id="busqueda" placeholder="Buscar un Empleo">
+  </div>
+  
+  <div id="cards"></div>
+
+  <script>
+    let jugadores = []; 
+    const container = document.getElementById("cards");
+    const inputBusqueda = document.getElementById("busqueda");
+
+    // Mostrar tarjetas
+    function mostrarTarjetas(lista) {
+      container.innerHTML = "";
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <img src="potaxie.jpg" alt="Sin resultados">
+            <h2>No se encontraron resultados</h2>
+            <h1>👁️👄👁️</h1>
+            <p>Intenta con otros términos de búsqueda .</p>
+          </div>
+        `;
+        return;
+      }
+      lista.forEach(j => {
+        container.innerHTML += `
+          <div class="card">
+            <img src="${j.imagen}" alt="Imagen del empleo">
+            <h1>Título: ${j.titulo}</h1>
+            <h3>Subtítulo: ${j.subtitulo}</h3>
+            <p>Texto: ${j.texto}</p>
+            <p>Ubicación: ${j.ubicacion}</p>
+            <p>Estado del empleo: ${j.estadoEmpleo}</p>
+            <a href="${j.enlace}" target="_blank">Ver más</a>
+          </div>
+        `;
+      });
+    }
+
+    // Cargar datos
+    fetch('empleos.json')
+      .then(res => res.json())
+      .then(data => {
+        jugadores = data;
+        container.innerHTML = "";
+      });
+
+    // Búsqueda
+    inputBusqueda.addEventListener("input", () => {
+      const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
+      if (textoBusqueda === "") {
+        container.innerHTML = "";
+        return;
+      }
+      const filtrados = jugadores.filter(j => {
+        return (
+          j.titulo.toLowerCase().includes(textoBusqueda) ||
+          j.subtitulo.toLowerCase().includes(textoBusqueda) ||
+          j.texto.toLowerCase().includes(textoBusqueda) ||
+          j.ubicacion.toLowerCase().includes(textoBusqueda) ||
+          j.estadoEmpleo.toLowerCase().includes(textoBusqueda)
+        );
+      });
+      mostrarTarjetas(filtrados);
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+

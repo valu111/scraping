@@ -1,0 +1,134 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Vacantes</title>
+  <link rel="stylesheet" href="stylos.css">
+  <style>
+    .card {
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 8px;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Vacantes disponibles</h1>
+  <div class="contenedor">
+    <input type="text" id="busqueda" placeholder="Buscar un Empleo">
+  </div>
+  
+  <div id="cards"></div>
+
+  <script>
+    let jugadores = []; 
+    const container = document.getElementById("cards");
+    const inputBusqueda = document.getElementById("busqueda");
+
+    // Mostrar tarjetas normales
+    function mostrarTarjetas(lista) {
+      container.innerHTML = "";
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <img src="potaxie.jpg" alt="Sin resultados">
+            <h2>No se encontraron resultados</h2>
+            <h1>👁️👄👁️</h1>
+            <p>Intenta con otros términos de búsqueda.</p>
+          </div>
+        `;
+        return;
+      }
+      lista.forEach(j => {
+        const imagen = j.imagen || "imagen_por_defecto.jpg";
+        const titulo = j.titulo || "Título no disponible";
+        const subtitulo = j.subtitulo || "Subtítulo no disponible";
+        const texto = j.texto || "Descripción no disponible";
+        const ubicacion = j.ubicacion || "Ubicación no disponible";
+        const estadoEmpleo = j.estadoEmpleo || "Estado no disponible";
+        const enlace = j.enlace || "#";
+
+        container.innerHTML += `
+          <div class="card">
+            <img src="${imagen}" alt="Imagen del empleo">
+            <h1>Título: ${titulo}</h1>
+            <h3>Subtítulo: ${subtitulo}</h3>
+            <p>Texto: ${texto}</p>
+            <p>Ubicación: ${ubicacion}</p>
+            <p>Estado del empleo: ${estadoEmpleo}</p>
+            <a href="${enlace}" target="_blank">Ver más</a>
+          </div>
+        `;
+      });
+    }
+
+    // Mostrar tarjeta de entrada inválida
+    function mostrarTarjetaError() {
+      container.innerHTML = `
+        <div class="card">
+          <img src="gomball.jpg" alt="Entrada inválida">
+          <h2>Entrada inválida</h2>
+          <h1>🚫</h1>
+          <p>No se permiten espacios, números ni caracteres especiales.</p>
+        </div>
+      `;
+    }
+
+    // Cargar datos
+    fetch('empleos.json')
+      .then(res => res.json())
+      .then(data => {
+        jugadores = data;
+        container.innerHTML = "";
+      })
+      .catch(err => {
+        container.innerHTML = "<p style='color:red;'>Error al cargar los datos.</p>";
+      });
+
+    // Validar texto
+    function validarTexto(texto) {
+      const regex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+$/;
+      return regex.test(texto);
+    }
+
+    // Búsqueda con validación
+    inputBusqueda.addEventListener("input", () => {
+      const textoBusqueda = inputBusqueda.value;
+
+      if (textoBusqueda === "") {
+        container.innerHTML = "";
+        return;
+      }
+
+      if (!validarTexto(textoBusqueda)) {
+        mostrarTarjetaError();
+        return;
+      }
+
+      const textoBusquedaLower = textoBusqueda.toLowerCase();
+
+      const filtrados = jugadores.filter(j => {
+        return (
+          (j.titulo && j.titulo.toLowerCase().includes(textoBusquedaLower)) ||
+          (j.subtitulo && j.subtitulo.toLowerCase().includes(textoBusquedaLower)) ||
+          (j.texto && j.texto.toLowerCase().includes(textoBusquedaLower)) ||
+          (j.ubicacion && j.ubicacion.toLowerCase().includes(textoBusquedaLower)) ||
+          (j.estadoEmpleo && j.estadoEmpleo.toLowerCase().includes(textoBusquedaLower))
+        );
+      });
+
+      mostrarTarjetas(filtrados);
+    });
+  </script>
+
+</body>
+</html>

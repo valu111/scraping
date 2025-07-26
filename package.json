@@ -1,0 +1,21 @@
+{
+  "name": "obtenerpdfnuevo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "json2csv": "^6.0.0-alpha.2",
+    "leaflet": "^1.9.4",
+    "pdfkit": "^0.17.1",
+    "puppeteer": "^24.10.2",
+    "react-leaflet": "^5.0.0",
+    "xlsx": "^0.18.5"
+  }
+}

@@ -1,0 +1,87 @@
+body {
+  background: linear-gradient(to right, #3a3a3a, #ffffff);
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  /* font-size: 2.5rem; */
+}
+
+#cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border: none;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  color: #007bff;
+  margin-bottom: 0.25rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: #37474f;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  margin: 0.3rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+img{
+    width: 300px;
+    height: 200px;
+}
+input ,label{
+    border-radius: 20px;
+    padding: 15px;
+    font-size: 1.2rem;
+    margin: 2rem 0;
+    text-align: center;   
+}
+.contenedor{
+    display: grid;
+    justify-content: center;
+    
+}
+
+#cards {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  flex-wrap: wrap;         /* Para que varias tarjetas se acomoden en filas */
+  gap: 20px;               /* Espacio entre tarjetas */
+}
+
+#cards .card {
+  width: 300px;           /* Ancho fijo */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;     /* Centra el texto dentro */
+}
+#cards .card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
