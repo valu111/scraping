@@ -7,34 +7,33 @@
 </head>
 <body class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
 
-  <!-- Header -->
   <header class="bg-indigo-600 text-white py-4 shadow">
     <h1 class="text-3xl font-bold text-center">Vacantes disponibles</h1>
   </header>
 
-  <!-- Contenido principal -->
   <main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
-    <!-- Buscador centrado -->
-    <div class="flex justify-center mb-6">
-      <div class="w-full max-w-md">
-        <input
-          type="text"
-          id="busqueda"
-          placeholder="Buscar un Empleo"
-          class="w-full p-3 border border-indigo-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
-        <div id="error" class="mt-2 text-sm text-red-600 font-medium text-center"></div>
-      </div>
+  <div class="flex justify-center mb-6">
+    <div class="flex items-center gap-4 w-full max-w-2xl">
+      <input
+        type="text"
+        id="busqueda"
+        placeholder="Buscar un Empleo"
+        class="flex-grow p-3 border border-indigo-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      />
+      <button
+        onclick="window.location.href='index2.html'"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2"
+        >
+        Siguiente
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+      </button>
     </div>
-
-    <!-- Tarjetas -->
-    <div id="cards" class="flex justify-center items-center min-h-[60vh] px-4"></div>
-  </main>
-
-  <!-- Footer actualizado -->
-  <!-- <footer class="bg-white rounded-lg shadow-sm dark:bg-gray-900 m-4"> -->
-
-
+  </div>
+  <div id="error" class="mt-2 text-sm text-red-600 font-medium text-center"></div>
+  <div id="cards" class="flex justify-center items-center min-h-[60vh] px-4"></div>
+</main>
 <footer class="bg-white dark:bg-gray-900">
   <h1 class="text-white text-center w-full mb-4 text-4xl font-bold">
   Datos obtenidos con fines educativos 👁️👄👁️
@@ -120,9 +119,6 @@
       </div>
     </div>
 </footer>
-
-
-  <!-- Script -->
   <script>
     let jugadores = [];
     const container = document.getElementById("cards");

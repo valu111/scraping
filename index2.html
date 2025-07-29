@@ -16,25 +16,42 @@
       height: 400px;
       width: 100%;
       border-radius: 0.5rem;
-}
+      }
+
+    .active-tab {
+      background-color: #bfdbfe; /* Tailwind blue-200 */
+      color: #1e40af; /* Tailwind blue-800 */
+     }
 
   </style>
  
 </head>
-<body class="bg-gray-100">
+<body class="bg-indigo-600 text-white py-4 shadow">
 
   <h1 class="text-3xl font-bold mb-6 text-center">Ofertas de Empleo</h1>
-
   
-  <nav>
-    <ul class="flex justify-center mb-6">
-      <li class="select-tab mr-4 cursor-pointer bg-blue-200 p-2 rounded hover:bg-blue-100">Todos</li>
-      <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Las 10 mejores ofertas de empleo</li>
-      <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Las 10 peores ofertas de empleo</li>
-      <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">mapa</li>
-      <li class="select-tab mr-4 cursor-pointer p-2 rounded hover:bg-blue-100">Equipo</li>
-    </ul>
-  </nav>
+<nav class="bg-white py-4 shadow-md rounded-xl max-w-6xl mx-auto mb-6">
+  <ul id="tabList" class="flex flex-wrap justify-center gap-4 px-4">
+    <li class="select-tab active-tab cursor-pointer bg-blue-200 text-blue-800 font-semibold px-5 py-2 rounded-full shadow hover:bg-blue-300 transition duration-300">
+      Todos
+    </li>
+    <li class="select-tab cursor-pointer bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-200 transition duration-300">
+      Las 10 mejores ofertas de empleo
+    </li>
+    <li class="select-tab cursor-pointer bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-200 transition duration-300">
+      Las 10 peores ofertas de empleo
+    </li>
+    <li class="select-tab cursor-pointer bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-200 transition duration-300">
+      Mapa
+    </li>
+    <li class="select-tab cursor-pointer bg-gray-100 text-gray-700 font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-200 transition duration-300">
+      Equipo
+    </li>
+  </ul>
+</nav>
+
+
+
 
 <section class="select-context h-auto bg-blue-200 p-4 flex justify-center">
   <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-6">
@@ -97,18 +114,12 @@
       
       <section class="grid gap-8 grid-cols-1 md:grid-cols-3">
         
-        <!-- Tarjeta 1: Osvaldo -->
-        <!-- Tarjeta 1: Osvaldo -->
 <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
-  <!-- Imagen de cabecera -->
   <div class="h-40 bg-cover bg-center" style="background-image: url('img/fondo3.png');"></div>
-
-  <!-- Avatar -->
   <div class="flex justify-center -mt-12">
     <img class="w-24 h-24 rounded-full border-4 border-white shadow-md" src="img/potaxie1.webp" alt="Avatar Osvaldo">
   </div>
 
-  <!-- Información -->
   <div class="p-6 text-center">
     <h3 class="text-xl font-semibold text-gray-800">Osvaldo</h3>
     <p class="text-blue-500 mb-3">Desarrollador</p>
@@ -116,7 +127,6 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fugiat commodi eius iste fugit? Necessitatibus commodi possimus sunt modi sint.
     </p>
 
-    <!-- Botón de email limpio -->
     <div class="flex justify-center">
   <button class="flex items-center justify-center gap-2 px-5 py-2 bg-gray-800 text-white rounded-full text-sm hover:bg-gray-700 transition">
     <span>osvaldo@gmail.com</span>
@@ -130,8 +140,6 @@
   </button>
 </div>
 
-
-    <!-- Iconos sociales SVG más pequeños y centrados -->
     <div class="flex justify-center items-center gap-4 mt-6 h-1 w-1">
       <a href="#" target="_blank">
         <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
@@ -152,18 +160,13 @@
   </div>
 </div>
 
-      
-      <!-- Tarjeta 2: Sarahi -->
-      <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
-  <!-- Imagen de cabecera -->
+  <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
   <div class="h-40 bg-cover bg-center" style="background-image: url('img/fonfo1.webp');"></div>
 
-  <!-- Avatar -->
   <div class="flex justify-center -mt-12">
     <img class="w-24 h-24 rounded-full border-4 border-white shadow-md" src="img/potaxie4.jpg" alt="Avatar Sarahi">
   </div>
 
-  <!-- Información -->
   <div class="p-6 text-center">
     <h3 class="text-xl font-semibold text-gray-800">Sarahi</h3>
     <p class="text-blue-500 mb-3">Desarrollador</p>
@@ -171,7 +174,6 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fugiat commodi eius iste fugit? Necessitatibus commodi possimus sunt modi sint.
     </p>
 
-    <!-- Botón de email limpio -->
     <div class="flex justify-center">
   <button class="flex items-center justify-center gap-2 px-5 py-2 bg-gray-800 text-white rounded-full text-sm hover:bg-gray-700 transition">
     <span>sarahi@gmail.com</span>
@@ -185,8 +187,6 @@
   </button>
 </div>
 
-
-    <!-- Iconos sociales SVG más pequeños y centrados -->
     <div class="flex justify-center items-center gap-4 mt-6 h-1 w-1">
       <a href="#" target="_blank">
         <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
@@ -206,16 +206,13 @@
     </div>
   </div>
 </div>
-      <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
-  <!-- Imagen de cabecera -->
+  <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
   <div class="h-40 bg-cover bg-center" style="background-image: url('img/fondo2.jpg');"></div>
 
-  <!-- Avatar -->
   <div class="flex justify-center -mt-12">
     <img class="w-24 h-24 rounded-full border-4 border-white shadow-md" src="img/potaxie5.jpg" alt="Avatar Osvaldo">
   </div>
 
-  <!-- Información -->
   <div class="p-6 text-center">
     <h3 class="text-xl font-semibold text-gray-800">Sheyla</h3>
     <p class="text-blue-500 mb-3">Desarrollador</p>
@@ -223,7 +220,6 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fugiat commodi eius iste fugit? Necessitatibus commodi possimus sunt modi sint.
     </p>
 
-    <!-- Botón de email limpio -->
     <div class="flex justify-center">
   <button class="flex items-center justify-center gap-2 px-5 py-2 bg-gray-800 text-white rounded-full text-sm hover:bg-gray-700 transition">
     <span>sheyla@gmail.com</span>
@@ -237,8 +233,6 @@
   </button>
 </div>
 
-
-    <!-- Iconos sociales SVG más pequeños y centrados -->
     <div class="flex justify-center items-center gap-4 mt-6 h-1 w-1">
       <a href="#" target="_blank">
         <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
@@ -282,5 +276,21 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+
+
+     <script>
+  document.querySelectorAll('.select-tab').forEach(tab => {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.select-tab').forEach(el => {
+        el.classList.remove('active-tab', 'bg-blue-200', 'text-blue-800');
+        el.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      
+      this.classList.add('active-tab', 'bg-blue-200', 'text-blue-800');
+      this.classList.remove('bg-gray-100', 'text-gray-700');
+    });
+  });
+</script>
+
 </body>
 </html>

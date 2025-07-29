@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
           coords = [19.4326, -99.1332];
         }
 
-        // Añadimos desplazamiento para no superponer marcadores
+        // Desplazamiento para no superponer marcadores
         const offsetLat = (Math.random() - 0.5) * 0.02;
         const offsetLng = (Math.random() - 0.5) * 0.02;
         const newCoords = [coords[0] + offsetLat, coords[1] + offsetLng];
