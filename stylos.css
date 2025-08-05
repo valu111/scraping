@@ -68,17 +68,17 @@ input ,label{
 
 #cards {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  flex-wrap: wrap;         /* Para que varias tarjetas se acomoden en filas */
-  gap: 20px;               /* Espacio entre tarjetas */
+  justify-content: center; 
+  flex-wrap: wrap;         
+  gap: 20px;               
 }
 
 #cards .card {
-  width: 300px;           /* Ancho fijo */
+  width: 300px;          
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   border-radius: 8px;
   padding: 16px;
-  text-align: center;     /* Centra el texto dentro */
+  text-align: center;     
 }
 #cards .card img {
   max-width: 100%;

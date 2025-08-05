@@ -63,7 +63,7 @@ const PDFDocument = require("pdfkit");
       console.log(` Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
     }
 
-    // Guardar JSON
+    
     fs.writeFileSync(
       "empleos.json",
       JSON.stringify(empleosExtraidos, null, 2),
@@ -71,20 +71,20 @@ const PDFDocument = require("pdfkit");
     );
     console.log('Archivo JSON generado');
 
-    // Guardar CSV
+ 
     const parser = new Parser();
     const contenidoCSV = parser.parse(empleosExtraidos);
     fs.writeFileSync("empleos.csv", contenidoCSV, "utf-8");
     console.log('Archivo CSV generado');
 
-    // Guardar Excel
+
     const hoja = XLSX.utils.json_to_sheet(empleosExtraidos);
     const libro = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libro, hoja, "Empleos");
     XLSX.writeFile(libro, "empleos.xlsx");
     console.log('Archivo Excel generado');
 
-    // Guardar PDF
+   
     const pdf = new PDFDocument();
     pdf.pipe(fs.createWriteStream("empleos.pdf"));
     pdf.fontSize(18).text("Empleos Hireline.io", { align: "center" }).moveDown();
@@ -107,7 +107,7 @@ const PDFDocument = require("pdfkit");
     pdf.end();
     console.log('Archivo PDF generado');
 
-    // Guardar TXT
+   
     // let textoPlano = "Empleos Hireline.io\n\n";
     // empleosExtraidos.forEach((item, index) => {
     //   textoPlano += `${index + 1}. ${item.titulo}\n`;
@@ -125,7 +125,7 @@ const PDFDocument = require("pdfkit");
     console.log(`\nProceso finalizado con éxito. Empleos obtenidos: ${empleosExtraidos.length}`);
 
   } catch (error) {
-    console.error("❌ Error durante el proceso:", error);
+    console.error("Error durante el proceso:", error);
   } finally {
     await navegador.close();
   }

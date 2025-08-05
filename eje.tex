@@ -61,13 +61,13 @@ const fs = require("fs");
 
       datosEmpleos.push(...empleosPagina);
 
-      console.log(`✅ Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
+      console.log(`Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
     }
 
 
 
   } catch (error) {
-    console.error("❌ Error durante el scraping:", error);
+    console.error("Error durante el scraping:", error);
   } finally {
     await navegador.close();
   }
@@ -138,7 +138,7 @@ const puppeteer = require("puppeteer");
 
       datosEmpleos.push(...empleosPagina);
 
-      console.log(`✅ Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
+      console.log(`Página ${numeroPagina} procesada. Empleos encontrados: ${empleosPagina.length}`);
     }
 
     // Mostrar resultados como objetos JSON formateados
@@ -147,7 +147,7 @@ const puppeteer = require("puppeteer");
     });
 
   } catch (error) {
-    console.error("❌ Error durante el scraping:", error);
+    console.error("Error durante el scraping:", error);
   } finally {
     await navegador.close();
   }
@@ -220,7 +220,7 @@ potaxie:
     const container = document.getElementById("cards");
     const inputBusqueda = document.getElementById("busqueda");
 
-    // Mostrar tarjetas
+    
     function mostrarTarjetas(lista) {
       container.innerHTML = "";
       if (lista.length === 0) {
@@ -249,7 +249,7 @@ potaxie:
       });
     }
 
-    // Cargar datos
+   
     fetch('empleos.json')
       .then(res => res.json())
       .then(data => {
@@ -257,7 +257,7 @@ potaxie:
         container.innerHTML = "";
       });
 
-    // Búsqueda
+
     inputBusqueda.addEventListener("input", () => {
       const textoBusqueda = inputBusqueda.value.trim().toLowerCase();
       if (textoBusqueda === "") {

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const map = L.map("map").setView([23.6345, -102.5528], 5); // Centro de México
+  const map = L.map("map").setView([23.6345, -102.5528], 5); 
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '© OpenStreetMap contributors',
@@ -19,14 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (ubicacion.includes("monterrey")) {
           coords = [25.6866, -100.3161];
         } else if (ubicacion.includes("latam") || ubicacion.includes("remoto")) {
-          coords = [19.4326, -99.1332]; // CDMX para remoto/latam
+          coords = [19.4326, -99.1332]; 
         } else {
           console.warn(`Ubicación no reconocida para el empleo: "${empleo.titulo}" - Ubicación: "${empleo.ubicacion}"`);
-          // Asignamos CDMX por defecto para ubicaciones no reconocidas
+         
           coords = [19.4326, -99.1332];
         }
 
-        // Desplazamiento para no superponer marcadores
         const offsetLat = (Math.random() - 0.5) * 0.02;
         const offsetLng = (Math.random() - 0.5) * 0.02;
         const newCoords = [coords[0] + offsetLat, coords[1] + offsetLng];
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
           `);
       });
     })
-    .catch((err) => {
+    .catch((err) =>    {
       console.error("Error al cargar empleos.json", err);
     });
 });
