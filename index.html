@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Vacantes</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.44/build/spline-viewer.js"></script>
+<spline-viewer url="https://prod.spline.design/At1PTBHZf47XljIR/scene.splinecode"></spline-viewer> -->
 </head>
 <body class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
 
@@ -14,21 +16,17 @@
   <main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
   <div class="flex justify-center mb-6">
     <div class="flex items-center gap-4 w-full max-w-2xl">
-      <input
-        type="text"
-        id="busqueda"
-        placeholder="Buscar un Empleo"
-        class="flex-grow p-3 border border-indigo-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-400"
-      />
-      <button
-        onclick="window.location.href='index2.html'"
-        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2"
-        >
-        Siguiente
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-      </svg>
-      </button>
+      <input type="text" id="busqueda" placeholder="Buscar..." />
+
+<button
+  onclick="guardarBusqueda()"
+  class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2"
+>
+  Siguiente
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+</button>
     </div>
   </div>
   <div id="error" class="mt-2 text-sm text-red-600 font-medium text-center"></div>
@@ -125,6 +123,8 @@
     const inputBusqueda = document.getElementById("busqueda");
     const errorDiv = document.getElementById("error");
 
+    // REALIZA LA BUSQQUEDA Y LO MUESTRA EN TAREG
+
     function mostrarTarjetas(lista) {
       container.className = "grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
       container.innerHTML = "";
@@ -168,7 +168,7 @@
     function mostrarTarjetaError(mensaje) {
       container.className = "flex justify-center items-center min-h-[60vh] px-4";
       container.innerHTML = `
-        <div class="bg-white p-6 rounded shadow text-center max-w-md">
+        <div class="bg-gray p-6 rounded shadow text-center max-w-md">
           <img src="potaxie.jpg" alt="Error de búsqueda" class="w-32 mx-auto mb-4">
           <h2 class="text-xl font-semibold text-red-600">Búsqueda inválida</h2>
           <p class="mt-2">${mensaje}</p>
@@ -231,6 +231,24 @@
 
       mostrarTarjetas(filtrados);
     });
+
+    function guardarBusqueda() {
+  const texto = document.getElementById("busqueda").value.trim();
+  
+  if (!texto) {
+    // Mostrar mensaje de error si no hay texto de búsqueda
+    const errorDiv = document.getElementById("error");
+    errorDiv.textContent = "Por favor ingresa un término de búsqueda";
+    errorDiv.className = "mt-2 text-sm text-red-600 font-medium text-center animate-pulse";
+    
+    // Mostrar estado vacío
+    mostrarTarjetas([]);
+    return;
+  }
+  
+  localStorage.setItem("terminoBusqueda", texto);
+  window.location.href = 'index2.html';
+}
   </script>
   
 </body>
