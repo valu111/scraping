@@ -1,0 +1,7 @@
+.mundo {
+  background-image: url("../img/mundo.png"); /* ruta de tu imagen */
+  background-size: cover;             /* que cubra toda la pantalla */
+  background-position: center;        /* centrada */
+  background-repeat: no-repeat;       /* sin repetirse */
+  height: 100vh;                       /* que abarque toda la altura de la ventana */
+}

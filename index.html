@@ -4,38 +4,127 @@
   <meta charset="UTF-8" />
   <title>Vacantes</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link  rel="stylesheet" href="./css/styles.css">
   <!-- <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.44/build/spline-viewer.js"></script>
 <spline-viewer url="https://prod.spline.design/At1PTBHZf47XljIR/scene.splinecode"></spline-viewer> -->
 </head>
-<body class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
+<body class="mundo">
 
-  <header class="bg-indigo-600 text-white py-4 shadow">
+  <div class="imagen-frontal"></div>
+
+  <header class="text-white py-10 shadow animated-header">
     <h1 class="text-3xl font-bold text-center">Vacantes disponibles</h1>
   </header>
 
-  <main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
-  <div class="flex justify-center mb-6">
-    <div class="flex items-center gap-4 w-full max-w-2xl">
-      <input type="text" id="busqueda" placeholder="Buscar..." />
+  <style>
+  @property --x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+  }
+  @property --y {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+  }
+  @property --c1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(217, 100%, 50%, 1);
+  }
+  @property --c2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(279, 67%, 50%, 1);
+  }
 
-<button
-  onclick="guardarBusqueda()"
-  class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2"
->
-  Siguiente
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-  </svg>
-</button>
+  @keyframes header-gradient-animation {
+    0% {
+      --x: 30%;
+      --y: 40%;
+      --c1: hsla(217, 100%, 50%, 1);
+      --c2: hsla(279, 67%, 50%, 1);
+    }
+    100% {
+      --x: 70%;
+      --y: 60%;
+      --c1: hsla(217, 100%, 40%, 1);
+      --c2: hsla(279, 67%, 40%, 1);
+    }
+  }
+
+  /* Fondo animado (fondo oscuro con gradientes) */
+  .animated-header {
+    position: relative; /* importante para z-index */
+    background-color: #1a1a1a;
+    background-image:
+      radial-gradient(circle at var(--x) var(--y), var(--c1), transparent 50%),
+      radial-gradient(circle at calc(100% - var(--x)) calc(100% - var(--y)), var(--c2), transparent 50%);
+    animation: header-gradient-animation 8s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+
+  /* Imagen delante del fondo pero detrás del contenido */
+  .imagen-frontal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;  /* ajusta tamaño */
+    height: auto;
+    pointer-events: none; /* no bloquea clicks */
+    background-image: url("../img/mundo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+    opacity: 0.8; /* opcional, para que no tape mucho */
+  }
+
+  /* Contenido visible por encima */
+  header {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Body full height para que se note el fondo */
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: transparent; /* para que el fondo animado se vea */
+  }
+  </style>
+</body>
+
+
+
+<main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
+  <div class="flex justify-center mb-6">
+    <div class="flex items-center gap-4 max-w-2xl justify-center">
+      <input
+        type="text"
+        id="busqueda"
+        placeholder="Buscar..."
+        class="border rounded-lg px-4 py-2"
+      />
+
+      <button
+        onclick="guardarBusqueda()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center gap-2"
+      >
+        Siguiente
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </button>
     </div>
   </div>
+
   <div id="error" class="mt-2 text-sm text-red-600 font-medium text-center"></div>
   <div id="cards" class="flex justify-center items-center min-h-[60vh] px-4"></div>
 </main>
+
 <footer class="bg-white dark:bg-gray-900">
-  <h1 class="text-white text-center w-full mb-4 text-4xl font-bold">
-  Datos obtenidos con fines educativos 👁️👄👁️
-  </h1>
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0 flex items-center space-x-4">
@@ -80,7 +169,7 @@
       </div>
       <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
       <div class="sm:flex sm:items-center sm:justify-between">
-          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Datos obtenidos con fines educativos 
           </span>
           <div class="flex mt-4 sm:justify-center sm:mt-0">
               <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -133,9 +222,8 @@
         container.className = "flex justify-center items-center min-h-[60vh] px-4";
         container.innerHTML = `
           <div class="bg-white p-6 rounded shadow text-center max-w-md">
-            <img src="potaxie.jpg" alt="Sin resultados" class="w-32 mx-auto mb-4">
+            <img src="./img/dini.gif" alt="Sin resultados" class="w-32 mx-auto mb-4">
             <h2 class="text-xl font-semibold text-red-500">No se encontraron resultados</h2>
-            <h1>👁️👄👁️</h1>
             <p class="mt-2">Intenta con otros términos de búsqueda.</p>
           </div>
         `;
