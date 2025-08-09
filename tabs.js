@@ -34,6 +34,7 @@ let ofertas = [];
 let rankingField = null;
 let mejores = [];
 let peores = [];
+let listaActual = [];
 
 /* Función para limpiar valores numéricos (quita comas, espacios, etc) */
 
@@ -174,12 +175,24 @@ function renderListaSimple(lista, containerId, tipo = '') {
 }
 
 /* Procesa y muestra todas las listas */
-function procesarYMostrar(lista) {
-  dividirTopBottom(lista);
-  mostrarTarjetas(lista);
-  renderListaSimple(mejores, 'mejores-lista', 'mejores');
-  renderListaSimple(peores, 'peores-lista', 'peores');
-}
+// function procesarYMostrar(lista) {
+//   listaActual = lista;
+//   mejores = [];
+//   peores = [];
+//   // ...tu lógica de división
+
+//   // Activa botones solo si hay datos
+//   const habilitar = listaActual.length > 0;
+//   btnCSV.disabled = !habilitar;
+//   btnJSON.disabled = !habilitar;
+//   btnXLSX.disabled = !habilitar;
+
+//   mostrarTarjetas(lista);
+//   renderListaSimple(mejores, 'mejores-lista', 'mejores');
+//   renderListaSimple(peores, 'peores-lista', 'peores');
+// }
+
+
 
 /* Filtrado simple */
 function filtrarOfertas(termino) {
@@ -206,16 +219,25 @@ function dividirMejoresPeoresSimple(lista) {
 }
 
 function procesarYMostrar(lista) {
-  // Usamos división simple basada en texto (tu criterio previo)
+  listaActual = lista;
+  mejores = [];
+  peores = [];
+
   const { mejores: mejoresDiv, peores: peoresDiv } = dividirMejoresPeoresSimple(lista);
 
   mejores = mejoresDiv;
   peores = peoresDiv;
 
-  mostrarTarjetas(lista);               // Mostrar todas las ofertas filtradas
+  mostrarTarjetas(lista);
   renderListaSimple(mejores, 'mejores-lista', 'mejores');
   renderListaSimple(peores, 'peores-lista', 'peores');
+
+  // Comenta estas líneas temporalmente para descartar errores
+  // btnCSV.disabled = !(listaActual.length > 0);
+  // btnJSON.disabled = !(listaActual.length > 0);
+  // btnXLSX.disabled = !(listaActual.length > 0);
 }
+
 
 
 
@@ -262,7 +284,58 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+  document.getElementById("btn-csv").addEventListener("click", () => {
+  console.log("listaActual al descargar CSV:", listaActual);
+  if (!listaActual.length) {
+    alert("No hay datos para exportar");
+    return;
+  }
+
+  const csvContent = "data:text/csv;charset=utf-8,"
+      + Object.keys(listaActual[0]).join(",") + "\n"
+      + listaActual.map(e => Object.values(e).join(",")).join("\n");
+
+  const link = document.createElement("a");
+  link.href = encodeURI(csvContent);
+  link.download = "empleos.csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 });
+
+
+document.getElementById("btn-json").addEventListener("click", () => {
+  if (!listaActual.length) return alert("No hay datos para exportar");
+
+  const jsonContent = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(listaActual, null, 2));
+  const link = document.createElement("a");
+  link.href = jsonContent;
+  link.download = "empleos.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+document.getElementById("btn-xlsx").addEventListener("click", () => {
+  if (!listaActual.length) return alert("No hay datos para exportar");
+
+  const worksheet = XLSX.utils.json_to_sheet(listaActual);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Empleos");
+  XLSX.writeFile(workbook, "empleos.xlsx");
+});
+
+    // Función para forzar descarga
+    function descargarArchivo(url, nombre) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = nombre;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+});
+
+
 
 
 

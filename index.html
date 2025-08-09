@@ -15,90 +15,7 @@
   <header class="text-white py-10 shadow animated-header">
     <h1 class="text-3xl font-bold text-center">Vacantes disponibles</h1>
   </header>
-
-  <style>
-  @property --x {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 50%;
-  }
-  @property --y {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 50%;
-  }
-  @property --c1 {
-    syntax: '<color>';
-    inherits: false;
-    initial-value: hsla(217, 100%, 50%, 1);
-  }
-  @property --c2 {
-    syntax: '<color>';
-    inherits: false;
-    initial-value: hsla(279, 67%, 50%, 1);
-  }
-
-  @keyframes header-gradient-animation {
-    0% {
-      --x: 30%;
-      --y: 40%;
-      --c1: hsla(217, 100%, 50%, 1);
-      --c2: hsla(279, 67%, 50%, 1);
-    }
-    100% {
-      --x: 70%;
-      --y: 60%;
-      --c1: hsla(217, 100%, 40%, 1);
-      --c2: hsla(279, 67%, 40%, 1);
-    }
-  }
-
-  /* Fondo animado (fondo oscuro con gradientes) */
-  .animated-header {
-    position: relative; /* importante para z-index */
-    background-color: #1a1a1a;
-    background-image:
-      radial-gradient(circle at var(--x) var(--y), var(--c1), transparent 50%),
-      radial-gradient(circle at calc(100% - var(--x)) calc(100% - var(--y)), var(--c2), transparent 50%);
-    animation: header-gradient-animation 8s ease-in-out infinite alternate;
-    z-index: 0;
-  }
-
-  /* Imagen delante del fondo pero detrás del contenido */
-  .imagen-frontal {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;  /* ajusta tamaño */
-    height: auto;
-    pointer-events: none; /* no bloquea clicks */
-    background-image: url("../img/mundo.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: 1;
-    opacity: 0.8; /* opcional, para que no tape mucho */
-  }
-
-  /* Contenido visible por encima */
-  header {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Body full height para que se note el fondo */
-  body {
-    min-height: 100vh;
-    margin: 0;
-    background-color: transparent; /* para que el fondo animado se vea */
-  }
-  </style>
-</body>
-
-
-
-<main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
+  <main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
   <div class="flex justify-center mb-6">
     <div class="flex items-center gap-4 max-w-2xl justify-center">
       <input
@@ -206,6 +123,87 @@
       </div>
     </div>
 </footer>
+
+  <style>
+  @property --x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+  }
+  @property --y {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+  }
+  @property --c1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(217, 100%, 50%, 1);
+  }
+  @property --c2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(279, 67%, 50%, 1);
+  }
+
+  @keyframes header-gradient-animation {
+    0% {
+      --x: 30%;
+      --y: 40%;
+      --c1: hsla(217, 100%, 50%, 1);
+      --c2: hsla(279, 67%, 50%, 1);
+    }
+    100% {
+      --x: 70%;
+      --y: 60%;
+      --c1: hsla(217, 100%, 40%, 1);
+      --c2: hsla(279, 67%, 40%, 1);
+    }
+  }
+
+  /* Fondo animado (fondo oscuro con gradientes) */
+  .animated-header {
+    position: relative; /* importante para z-index */
+    background-color: #1a1a1a;
+    background-image:
+      radial-gradient(circle at var(--x) var(--y), var(--c1), transparent 50%),
+      radial-gradient(circle at calc(100% - var(--x)) calc(100% - var(--y)), var(--c2), transparent 50%);
+    animation: header-gradient-animation 8s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+
+  /* Imagen delante del fondo pero detrás del contenido */
+  .imagen-frontal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;  /* ajusta tamaño */
+    height: auto;
+    pointer-events: none; /* no bloquea clicks */
+    background-image: url("../img/mundo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+    opacity: 0.8; /* opcional, para que no tape mucho */
+  }
+
+  /* Contenido visible por encima */
+  header {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Body full height para que se note el fondo */
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: transparent; /* para que el fondo animado se vea */
+  }
+  </style>
+</body>
+
   <script>
     let jugadores = [];
     const container = document.getElementById("cards");
