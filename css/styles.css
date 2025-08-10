@@ -8,14 +8,15 @@
 
 
 .mundo {
-  position: relative; /* necesario para posicionar el overlay animado */
+  position: relative;
   background-image: url("../img/mundo.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
-  overflow: hidden; /* para evitar scroll si algo sobresale */
+  min-height: 100vh; /* Cambiado de height a min-height */
+  /* overflow: hidden;  -- Quitar esta línea o comentarla */
 }
+
 
 /* Variables personalizadas para la animación */
 @property --x {
@@ -75,11 +76,12 @@ header {
 header h1 {
   font-size: 3.5rem; /* Tamaño más grande */
   font-weight: 800;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(90deg, #05cfb4, #f1ee09);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+
 }
 
 .imagen-frontal {
@@ -105,6 +107,13 @@ header h1 {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
+#busqueda::placeholder {
+  color: black;      
+  font-weight: 500;   
+  opacity: 1;         
+}
+
+
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
@@ -116,14 +125,16 @@ button:hover {
 }
 
 #cards {
-  background-color: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.0); /* negro con 30% de opacidad */
   border-radius: 16px;
   padding: 2rem;
   margin: 2rem 0;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease;
+  backdrop-filter: none; /* o simplemente quitar esta línea */
+  
 }
+
 
 /* Scroll suave */
 html {
@@ -143,7 +154,17 @@ html {
 
 #cards > * {
   animation: fadeIn 0.6s ease forwards;
+    background-color: rgba(0, 0, 0, 0.7); /* fondo negro semitransparente, más opaco */
+  color: #fff; /* texto blanco para buen contraste */
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  animation: fadeIn 0.6s ease forwards;
+  z-index: 2; /* para que quede sobre la capa .mundo::before */
+  position: relative;
+  
 }
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
@@ -153,3 +174,5 @@ body {
 h1, h2, h3 {
   line-height: 1.2;
 }
+
+

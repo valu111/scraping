@@ -1,0 +1,130 @@
+.nav-animated-bg {
+  background-color: hsla(0, 45%, 21%, 1);
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 2 2' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 10% 97%, hsla(330, 56%, 17%, 1) 8%, transparent 66%),
+    radial-gradient(circle at 37% 81%, hsla(355, 85%, 56%, 1) 11.7%, transparent 81%),
+    radial-gradient(circle at 57% 63%, hsla(10, 100%, 62%, 1) 17.2%, transparent 58%),
+    radial-gradient(circle at 68% 5%, hsla(22, 100%, 90%, 1) 22%, transparent 75%);
+  background-blend-mode: overlay, normal, normal, normal, normal;
+  color: white; /* Asegura que el texto sea visible */
+}
+
+
+.nav-animated-bg1 {
+  position: relative;
+  min-height: 100vh;
+  /* background-image: url("../img/mundo.png"); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+   /* Opcional, evita scroll inesperado */
+  color: #e5e7eb; /* texto claro para buen contraste */
+}
+
+.nav-animated-bg1::before {
+  content: "";
+  position: fixed; /* fijo para cubrir todo el viewport */
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; /* no bloquea clicks */
+  background-color: #1a1a1a;
+  background-image:
+    radial-gradient(circle at 30% 40%, hsla(217, 100%, 50%, 0.6), transparent 50%),
+    radial-gradient(circle at 70% 60%, hsla(279, 67%, 50%, 0.6), transparent 50%);
+  animation: header-gradient-animation 8s ease-in-out infinite alternate;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+/* Mantén la animación tal cual la tienes definida */
+@keyframes header-gradient-animation {
+  0% {
+    --x: 30%;
+    --y: 40%;
+    --c1: hsla(217, 100%, 50%, 0.6);
+    --c2: hsla(279, 67%, 50%, 0.6);
+  }
+  100% {
+    --x: 70%;
+    --y: 60%;
+    --c1: hsla(217, 100%, 40%, 0.6);
+    --c2: hsla(279, 67%, 40%, 0.6);
+  }
+}
+
+.mi-boton {
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.mi-boton:hover {
+  transform: scale(1.1);
+  background-color: #640D5F;
+  color: #f0f9ff;
+}
+
+.tab-anim {
+  cursor: pointer;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px; /* redondo */
+  font-weight: 600;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+  background-color: #e5e7eb; /* gris claro */
+  color: #374151; /* gris oscuro */
+}
+
+.tab-anim:hover {
+  transform: scale(1.1);
+  background-color: #94e70d; /* gris un poco más oscuro */
+  color: #1e40af; /* azul */
+}
+
+.tab-anim.active {
+  background-color: #3b82f6; /* azul */
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(59,130,246,0.5);
+}
+
+.regresar {
+  transition: transform 0.3s ease;
+}
+
+.regresar:hover {
+  transform: scale(1.1);
+}
+
+
+/* .color1 {
+    --x-0: 13%;
+    --c-0: hsla(265, 73%, 45%, 1);
+    --y-0: 16%;
+    --y-1: 89%;
+    --x-1: 14%;
+    --c-1: hsla(345, 88%, 31%, 0.91);
+    --y-2: 23%;
+    --x-2: 23%;
+    --c-2: hsla(264, 73%, 3%, 1);
+
+    background-color: hsla(272, 86%, 9%, 1);
+    background-image: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 1288 1288' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"), 
+        radial-gradient(circle at var(--x-0) var(--y-0), var(--c-0) var(--s-start-0), transparent var(--s-end-0)), 
+        radial-gradient(circle at var(--x-1) var(--y-1), var(--c-1) var(--s-start-1), transparent var(--s-end-1)), 
+        radial-gradient(circle at var(--x-2) var(--y-2), var(--c-2) var(--s-start-2), transparent var(--s-end-2));
+    animation: hero-gradient-animation 2s linear infinite alternate;
+    background-blend-mode: overlay, overlay, normal, normal;
+} */
+
+
+
+
