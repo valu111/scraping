@@ -14,20 +14,31 @@ function mostrarModal(oferta) {
 function cerrarModal() {
   document.getElementById('modal').classList.add('hidden');
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll('.select-tab');
+  const sections = document.querySelectorAll('.select-context');
 
-const tabsArray = Array.from(document.querySelectorAll('.select-tab'));
-const contentArray = Array.from(document.querySelectorAll('.select-context'));
+  // 🔹 Ocultar todos menos el primero al inicio
+  sections.forEach((s, i) => s.classList.toggle('hidden', i !== 0));
+  tabs[0]?.classList.add('active-tab', 'bg-blue-200', 'text-blue-800');
 
-tabsArray.forEach((tab, index) => {
-  tab.addEventListener('click', () => {
-    tabsArray.forEach(t => t.classList.remove('bg-blue-200'));
-    tab.classList.add('bg-blue-200');
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener('click', function () {
+      tabs.forEach(el => {
+        el.classList.remove('active-tab', 'bg-blue-200', 'text-blue-800');
+        el.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      this.classList.add('active-tab', 'bg-blue-200', 'text-blue-800');
+      this.classList.remove('bg-gray-100', 'text-gray-700');
 
-    contentArray.forEach((content, i) => {
-      content.classList.toggle('hidden', i !== index);
+      sections.forEach(s => s.classList.add('hidden'));
+      if (idx < sections.length) {
+        sections[idx].classList.remove('hidden');
+      }
     });
   });
 });
+
 
 /* Variables globales */
 let ofertas = [];
@@ -100,11 +111,15 @@ function mostrarTarjetas(lista) {
   if (!lista || lista.length === 0) {
     contenedor.innerHTML = `
       <div class="flex flex-col items-center justify-center p-8 text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <h3 class="mt-4 text-lg font-medium text-gray-700">No se encontraron resultados</h3>
         <p class="mt-1 text-gray-500">Intenta con otros términos de búsqueda</p>
+        <button class="w-full px-4 py-2 text-sm font-medium bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition">
+  Ver más
+</button>
+
       </div>
     `;
     return;
@@ -125,12 +140,18 @@ function mostrarTarjetas(lista) {
             <p class="text-sm text-gray-600 mt-1 truncate">${oferta.subtitulo || ''}</p>
           </div>
         </div>
-        ${oferta.texto ? `<p class="mt-3 text-sm text-gray-500 line-clamp-2">${oferta.texto}</p>` : ''}
-        <div class="mt-4 flex flex-wrap gap-2 items-center">
-          ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${oferta.ubicacion}</span>` : ''}
-          ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">${oferta.estado}</span>` : ''}
-          ${rankingField ? `<span class="ml-auto text-xs text-gray-600">${oferta[rankingField] ?? ''}</span>` : ''}
-        </div>
+${oferta.texto ? `<p class="mt-3 text-sm text-gray-700 line-clamp-2">${oferta.texto}</p>` : ''}
+<div class="mt-4 flex flex-wrap gap-2 items-center">
+  ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-200 text-indigo-900">${oferta.ubicacion}</span>` : ''}
+  ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-200 text-teal-900">${oferta.estado}</span>` : ''}
+  ${rankingField ? `<span class="ml-auto text-xs font-semibold text-gray-900">${oferta[rankingField] ?? ''}</span>` : ''}
+</div>
+<div class="mt-4">
+  <button class="w-full px-4 py-2 text-sm font-medium text-black bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+    Ver más
+  </button>
+</div>
+
       </div>
     `;
     card.onclick = () => {
@@ -147,32 +168,53 @@ function renderListaSimple(lista, containerId, tipo = '') {
   const cont = document.getElementById(containerId);
   if (!cont) return;
   cont.innerHTML = '';
+
   if (!lista || lista.length === 0) {
-    cont.innerHTML = `<p class="text-center text-gray-500">Sin resultados</p>`;
+    cont.innerHTML = `<p class="text-center text-gray-500 p-4">Sin resultados</p>`;
     return;
   }
 
-  lista.forEach((oferta, i) => {
-    const orden = i + 1;
-    const valorRanking = rankingField ? (oferta[rankingField] ?? '') : '';
-    const item = document.createElement('div');
-    item.className = "p-3 border rounded-md flex justify-between items-center hover:bg-gray-50";
-    item.innerHTML = `
-      <div>
-        <div class="font-semibold">${orden}. ${oferta.titulo || 'Sin título'}</div>
-        <div class="text-sm text-gray-500">${oferta.subtitulo || ''}</div>
-      </div>
-      <div class="text-right">
-        ${ valorRanking !== '' ? `<div class="text-sm text-gray-700">${valorRanking}</div>` : '' }
-        <button class="mt-2 text-xs text-indigo-600 hover:underline">Ver</button>
+  const gridContainer = document.createElement("div");
+  gridContainer.className = "grid gap-6 md:grid-cols-2  xl:grid-cols-4";
+
+  lista.forEach(oferta => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-transform duration-200 hover:-translate-y-1";
+
+    card.innerHTML = `
+      <div class="p-5 flex flex-col">
+        <div class="flex  gap-4">
+          <img src="${oferta.imagen || 'placeholder.jpg'}" alt="Logo" class="w-12 h-12 object-contain rounded-full border-2 border-white shadow">
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-gray-800 truncate">${oferta.titulo || 'Sin título'}</h3>
+            <p class="text-sm text-gray-600 mt-1 truncate">${oferta.subtitulo || ''}</p>
+          </div>
+        </div>
+        ${oferta.texto ? `<p class="mt-3 text-sm text-gray-500 line-clamp-2">${oferta.texto}</p>` : ''}
+        <div class="mt-4 flex flex-wrap gap-2 items-center">
+          ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${oferta.ubicacion}</span>` : ''}
+          ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">${oferta.estado}</span>` : ''}
+          ${rankingField ? `<span class="ml-auto text-xs font-semibold text-gray-900">${oferta[rankingField] ?? ''}</span>` : ''}
+        </div>
+        <button class="mt-4 w-full px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+          Ver más
+        </button>
       </div>
     `;
-    item.querySelector('button')?.addEventListener('click', () => {
-      if (typeof mostrarModal === 'function') mostrarModal(oferta);
+
+    // El botón "Ver más" abre el modal sin que se propague el click a la card
+    const btnVerMas = card.querySelector("button");
+    btnVerMas.addEventListener("click", e => {
+      e.stopPropagation();
+      mostrarModal(oferta);
     });
-    cont.appendChild(item);
+
+    gridContainer.appendChild(card);
   });
+
+  cont.appendChild(gridContainer);
 }
+
 
 /* Procesa y muestra todas las listas */
 // function procesarYMostrar(lista) {
@@ -276,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         el.classList.add('bg-gray-100', 'text-gray-700');
       });
       this.classList.add('active-tab', 'bg-blue-200', 'text-blue-800');
-      this.classList.remove('bg-gray-100', 'text-gray-700');
+      this.classList.remove('bg-gray-800', 'text-gray-700');
 
       sections.forEach(s => s.classList.add('hidden'));
       if (idx < sections.length) {
