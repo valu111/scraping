@@ -84,12 +84,12 @@
 
 .tab-anim:hover {
   transform: scale(1.1);
-  background-color: #94e70d; /* gris un poco más oscuro */
+  background-color:#0ffff8; 
   color: #1e40af; /* azul */
 }
 
 .tab-anim.active {
-  background-color: #3b82f6; /* azul */
+  background-color: #3b82f6; 
   color: white;
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(59,130,246,0.5);
