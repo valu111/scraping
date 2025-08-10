@@ -180,6 +180,7 @@
   </style>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     let jugadores = [];
     const container = document.getElementById("cards");
@@ -294,20 +295,20 @@
       mostrarTarjetas(filtrados);
     });
 
-    function guardarBusqueda() {
+function guardarBusqueda() {
   const texto = document.getElementById("busqueda").value.trim();
-  
+
   if (!texto) {
-    // Mostrar mensaje de error si no hay texto de búsqueda
-    const errorDiv = document.getElementById("error");
-    errorDiv.textContent = "Por favor ingresa un término de búsqueda";
-    errorDiv.className = "mt-2 text-sm text-red-600 font-medium text-center animate-pulse";
-    
-    // Mostrar estado vacío
-    mostrarTarjetas([]);
+    Swal.fire({
+      icon: 'warning',
+      title: 'Búsqueda requerida',
+      text: 'No has realizado una búsqueda de empleo.',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Entendido'
+    });
     return;
   }
-  
+
   localStorage.setItem("terminoBusqueda", texto);
   window.location.href = 'index2.html';
 }
