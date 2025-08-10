@@ -114,8 +114,8 @@ function mostrarTarjetas(lista) {
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <h3 class="mt-4 text-lg font-medium text-gray-700">No se encontraron resultados</h3>
-        <p class="mt-1 text-gray-500">Intenta con otros términos de búsqueda</p>
+        <h3 class="mt-4 text-lg font-medium text-red-500">No se encontraron resultados</h3>
+        <p class="mt-1 text-red-500">Intenta con otros términos de búsqueda</p>
         <button class="w-full px-4 py-2 text-sm font-medium bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition">
   Ver más
 </button>
@@ -130,25 +130,25 @@ function mostrarTarjetas(lista) {
 
   lista.forEach(oferta => {
     const card = document.createElement("div");
-    card.className = "bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-transform duration-200 hover:-translate-y-1";
+    card.className = "bg-white rounded-lg shadow-md overflow-hidden border border-gray-500 hover:shadow-lg transition-transform duration-200 hover:-translate-y-1";
     card.innerHTML = `
       <div class="p-5">
         <div class="flex items-start gap-4">
           <img src="${oferta.imagen || 'placeholder.jpg'}" alt="Logo" class="w-12 h-12 object-contain rounded-full border-2 border-white shadow">
           <div class="flex-1 min-w-0">
-            <h3 class="font-semibold text-gray-800 truncate">${oferta.titulo || 'Sin título'}</h3>
-            <p class="text-sm text-gray-600 mt-1 truncate">${oferta.subtitulo || ''}</p>
+            <h3 class="font-semibold text-gray-900 truncate">${oferta.titulo || 'Sin título'}</h3>
+            <p class="text-sm text-red-500 mt-1 truncate">${oferta.subtitulo || ''}</p>
           </div>
         </div>
 ${oferta.texto ? `<p class="mt-3 text-sm text-gray-700 line-clamp-2">${oferta.texto}</p>` : ''}
 <div class="mt-4 flex flex-wrap gap-2 items-center">
-  ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-200 text-indigo-900">${oferta.ubicacion}</span>` : ''}
+  ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full  font-medium  text-gray-800">${oferta.ubicacion}</span>` : ''}
   ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-200 text-teal-900">${oferta.estado}</span>` : ''}
-  ${rankingField ? `<span class="ml-auto text-xs font-semibold text-gray-900">${oferta[rankingField] ?? ''}</span>` : ''}
+  ${rankingField ? `<span class="ml-auto text-xs font-semibold text-green-900">${oferta[rankingField] ?? ''}</span>` : ''}
 </div>
-<div class="mt-4">
-  <button class="w-full px-4 py-2 text-sm font-medium text-black bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-    Ver más
+<div class="mt-4 ">
+  <button class="w-full p-6 py-2 text-sm font-medium text-red-500  bg-red-600  rounded-2xl ">
+    Clic para ver mas 
   </button>
 </div>
 
@@ -192,22 +192,23 @@ function renderListaSimple(lista, containerId, tipo = '') {
         </div>
         ${oferta.texto ? `<p class="mt-3 text-sm text-gray-500 line-clamp-2">${oferta.texto}</p>` : ''}
         <div class="mt-4 flex flex-wrap gap-2 items-center">
-          ${oferta.ubicacion ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${oferta.ubicacion}</span>` : ''}
-          ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">${oferta.estado}</span>` : ''}
+          ${oferta.ubicacion ? `<span class=" text-gray-800 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${oferta.ubicacion}</span>` : ''}
+          ${oferta.estado ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium  ">${oferta.estado}</span>` : ''}
           ${rankingField ? `<span class="ml-auto text-xs font-semibold text-gray-900">${oferta[rankingField] ?? ''}</span>` : ''}
         </div>
-        <button class="mt-4 w-full px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-          Ver más
-        </button>
-      </div>
-    `;
+        <div class="mt-4 text-red-500">
+      <button class="w-full px-4 py-2 text-sm font-medium bg-blue-600 text-black-300 rounded-lg hover:bg-blue-700 transition">
+        Ver más
+      </button>
+    </div>
+  </div>
+`;
 
-    // El botón "Ver más" abre el modal sin que se propague el click a la card
-    const btnVerMas = card.querySelector("button");
-    btnVerMas.addEventListener("click", e => {
-      e.stopPropagation();
-      mostrarModal(oferta);
-    });
+const btnVerMas = card.querySelector("button");
+btnVerMas.addEventListener("click", e => {
+  e.stopPropagation();
+  mostrarModal(oferta);
+});
 
     gridContainer.appendChild(card);
   });
