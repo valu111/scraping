@@ -22,7 +22,7 @@
         type="text"
         id="busqueda"
         placeholder="Buscar..."
-        class="border rounded-lg px-4 py-2 transition-transform duration-300 ease-in-out hover:scale-105"
+        class="border text-black rounded-lg px-4 py-2 transition-transform duration-300 ease-in-out hover:scale-105"
       />
 
       <button
@@ -194,9 +194,9 @@
       container.innerHTML = "";
 
       if (lista.length === 0) {
-        container.className = "flex justify-center items-center min-h-[60vh] px-4";
+        container.className = "flex justify-center items-center min-h-[60vh] px-4 text-black";
         container.innerHTML = `
-          <div class="bg-white p-6 rounded shadow text-center max-w-md">
+          <div class="bg-white  p-6 rounded shadow text-center max-w-md">
             <img src="./img/dini.gif" alt="Sin resultados" class="w-32 mx-auto mb-4">
             <h2 class="text-xl font-semibold text-red-500">No se encontraron resultados</h2>
             <p class="mt-2">Intenta con otros términos de búsqueda.</p>
